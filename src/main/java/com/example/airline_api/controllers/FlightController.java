@@ -1,6 +1,5 @@
 package com.example.airline_api.controllers;
 
-import com.example.airline_api.models.BookingDTO;
 import com.example.airline_api.models.Flight;
 import com.example.airline_api.repositories.FlightRepository;
 import com.example.airline_api.services.FlightService;
@@ -9,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Book;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +19,7 @@ public class FlightController {
     FlightRepository flightRepository;
     @Autowired
     FlightService flightService;
+
 
     // Display all available flights
     @GetMapping
@@ -42,9 +41,11 @@ public class FlightController {
     }
 
     // Book passenger on a flight
-    @PatchMapping(value = "/{id}")
-    public ResponseEntity<Flight> addPassengerToFlight(@RequestBody BookingDTO bookingDTO, @PathVariable long id){
-        return new ResponseEntity<>(flightService.addPassengerToFlight(bookingDTO, id), HttpStatus.OK);
+    @PatchMapping(value = "/{id}/add-passenger")
+    public ResponseEntity<Flight> addPassengerToFlight(@PathVariable Long flightId, @RequestBody Long passengerId){
+        Flight updatedFlight = flightService.addPassengerToFlight(flightId, passengerId);
+        flightService.addPassengerToFlight(flightId, passengerId);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     // Cancel flight

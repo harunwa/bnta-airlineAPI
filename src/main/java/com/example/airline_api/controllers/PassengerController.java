@@ -2,6 +2,7 @@ package com.example.airline_api.controllers;
 
 import com.example.airline_api.models.Passenger;
 import com.example.airline_api.repositories.PassengerRepository;
+import com.example.airline_api.services.FlightService;
 import com.example.airline_api.services.PassengerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,9 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/passengers")
 public class PassengerController {
+
+    @Autowired
+    FlightService flightService;
 
     @Autowired
     PassengerRepository passengerRepository;

@@ -23,36 +23,38 @@ public class DataLoader implements ApplicationRunner {
     public DataLoader(){}
 
     @Override
-    public void run(ApplicationArguments args){
+    public void run(ApplicationArguments args) throws Exception {
 
-        Flight flight1 = new Flight("London", 5, "29/02/2024", "9pm");
-        flightRepository.save(flight1);
+        // LONDON
+        Flight londonFlight = new Flight("London", 5, "29/02/2024", "9pm");
+        flightRepository.save(londonFlight);
 
-        Passenger p1 = new Passenger("Harun", "harun@gmail.com");
-        p1.addPassenger(p1);
-        passengerRepository.save(p1);
+        Passenger harun = new Passenger("Harun", "harun@gmail.com");
+        harun.addFlight(londonFlight);
+        passengerRepository.save(harun);
 
-        Flight flight2 = new Flight("New York", 2, "01/03/2024", "11am");
-        flightRepository.save(flight2);
+        // NEW YORK
+        Flight newYorkFlight = new Flight("New York", 2, "01/03/2024", "11am");
+        flightRepository.save(newYorkFlight);
 
-        Passenger p2 = new Passenger("Colin", "Colin@gmail.com");
-        p2.addPassenger(p2);
-        passengerRepository.save(p2);
+        Passenger colin = new Passenger("Colin", "Colin@gmail.com");
+        colin.addFlight(newYorkFlight);
+        passengerRepository.save(colin);
 
-        Flight flight3 = new Flight("Miami", 6, "05/03/2024", "4pm");
-        flightRepository.save(flight3);
+        // MIAMI
+        Flight miamiFlight = new Flight("Miami", 6, "05/03/2024", "4pm");
+        flightRepository.save(miamiFlight);
 
-        Passenger p3 = new Passenger("Anna", "anna@gmail.com");
-        p3.addPassenger(p3);
-        passengerRepository.save(p3);
+        Passenger anna = new Passenger("Anna", "anna@gmail.com");
+        anna.addFlight(miamiFlight);
+        passengerRepository.save(anna);
 
-        Passenger p4 = new Passenger("James", "james@gmail.com");
-        p4.addPassenger(p4);
-        passengerRepository.save(p4);
+        Passenger james = new Passenger("James", "james@gmail.com");
+        james.addFlight(miamiFlight);
+        passengerRepository.save(james);
 
-        Flight flight4 = new Flight("Spain", 3, "10/03/2024", "1am");
-        flightRepository.save(flight4);
-
+        // SPAIN
+        Flight spainFlight = new Flight("Spain", 3, "10/03/2024", "1am");
+        flightRepository.save(spainFlight);
     }
-
 }

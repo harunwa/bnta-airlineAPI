@@ -18,7 +18,13 @@ public class Passenger {
     @Column
     private String email;
     @JsonIgnoreProperties({"passengers"})
-    @ManyToMany(mappedBy = "passengers")
+    @ManyToMany
+    @JoinTable(
+            name = "passenger_flights",
+            joinColumns = @JoinColumn(name = "flight_id"),
+            inverseJoinColumns = @JoinColumn(name = "passenger_id")
+
+    )
     private List<Flight> flights;
 
     public Passenger(String name, String email) {
@@ -62,7 +68,11 @@ public class Passenger {
         this.flights = flights;
     }
 
-    public void addPassenger(Passenger passenger) {
+    public void addFlight (Flight flight){
+        this.flights.add(flight);
+    }
 
+    public void cancelFlight(Flight flight){
+        this.flights.remove(flight);
     }
 }

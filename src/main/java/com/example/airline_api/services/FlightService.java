@@ -1,6 +1,5 @@
 package com.example.airline_api.services;
 
-import com.example.airline_api.models.BookingDTO;
 import com.example.airline_api.models.Flight;
 import com.example.airline_api.models.Passenger;
 import com.example.airline_api.repositories.FlightRepository;
@@ -8,6 +7,8 @@ import com.example.airline_api.repositories.PassengerRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class FlightService {
@@ -18,33 +19,39 @@ public class FlightService {
     @Autowired
     PassengerRepository passengerRepository;
 
+    @Transactional
     public void saveFlight(Flight flight){
         flightRepository.save(flight);
     }
 
-    public void getAllFlights(){
-
+    @Transactional
+    public List<Flight> getAllFlights(){
+        return flightRepository.findAll();
     }
 
+    @Transactional
     public Flight getFlightById(Long id){
         return flightRepository.findById(id).get();
     }
 
     @Transactional
-    public Flight addPassengerToFlight(BookingDTO bookingDTO, Long id){
+    public void cancelFlight(Long id){
         Flight flight = flightRepository.findById(id).get();
-        Passenger passenger = passengerRepository.findById(bookingDTO.getPassengerId()).get();
-        flight.addPassenger(passenger);
-        return flight;
+        for (Passenger passenger : flight.getPassengers()) {
+            passenger.cancelFlight(flight);
+        }
+        flightRepository.deleteById(id);
     }
 
     @Transactional
-    public void cancelFlight(Long id){
-        Flight flight = flightRepository.findById(id).get();
-        for (Passenger passenger : flight.getPassengers()){
-            flight.removePassenger(passenger);
-        }
-        flightRepository.deleteById(id);
+    public Flight addPassengerToFlight(Long flightId, Long passengerId) {
+        Flight foundFlight = flightRepository.findById(flightId).get();
+        Passenger passenger1 = passengerRepository.findById(passengerId).get();
+
+        foundFlight.addPassenger(passenger1);
+        flightRepository.save(foundFlight);
+        return foundFlight;
+
     }
 
 }
